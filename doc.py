@@ -10,41 +10,38 @@ import spacy
 
 
 
+
 lst = []
 n = []
 sym = []
-   
+lsdx = []
+
+
+dx = pd.read_csv("lst1.csv")
+for x in dx["0"]:
+    lsdx.append(x)
+    
 def opens(x):
-    df = pd.read_csv(x)
-    return ''.join(str(e) for e in df['0'])
+    try:
+        df = pd.read_csv(x)
+        return ''.join(str(e) for e in df['0'])
+    except:
+        return ''
 
 def nlpx(lst,symbol):
     nlp = spacy.load("zh_core_web_sm")
     for r in range(len(lst)-1):
-        doc1 = nlp(lst[r])
-        doc2 = nlp(lst[r+1])
-        n.append(doc1.similarity(doc2))
-        sym.append(symbol)
-        # 存成2維或dict
-
-dt = pd.read_csv("lst1.csv")
-#懷疑這裡
-for symbol in dt['0']:
-    for i in range(2011,2020):
         try:
-            path = "zip/"+str(i)+'/'+str(symbol)+".csv"
-            # 補上缺失
-        except FileNotFoundError:
-            pass
-            
+            doc1 = nlp(lst[r])
+            doc2 = nlp(lst[r+1])
+            n.append(doc1.similarity(doc2))
+            sym.append(symbol)
+        except:
+            n.append(" ")
+
+for symbol in lsdx:
+    for i in range(2011,2020):
+        path = "zip/"+str(i)+'/'+str(symbol)+".csv"
         lst.append(opens(path))
         nlpx(lst,symbol)
-        
-        break
-        
-dic = [[symbol],[lst]]
-        
-
-
-
-
+    
