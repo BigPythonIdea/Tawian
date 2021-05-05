@@ -11,11 +11,10 @@ V504 jieba 那邊要想一下 然後想一下 用模組化的方式調整超參�
 """
 
 import pandas as pd
-import numpy as np
 import jieba
-import jieba.analyse
 import os
-import re
+import jieba.analyse
+import jieba.posseg as pseg
 
 SYMBOL = "化學.csv"
 ALL_YEAR = "2011"
@@ -43,32 +42,61 @@ def binary_search(data, key):
 
 def get_txt(number,v=None):
     df = pd.read_csv(".\zip\\"+ALL_YEAR+"\\"+str(number)+".csv")
-    st = str(df["0"])
-    return st
+    outstr = ""
+    for word in df["0"]:
+        if word != '\n':
+            outstr += word
+ 
+    return outstr
+
+
+def stopwordslist(filepath):
+    stopwords = [line.strip() for line in open(filepath, 'r', encoding='utf-8').readlines()]
+    return stopwords
+
 
 def jieba_(lst,v=None):
-    pass
+    in_str= ''
+    for idx in range(len(lst)):
+        in_str = str(lst[idx]) 
+        
+    jieba.set_dictionary("dict.txt")
+    jie = jieba.cut(in_str)
+    stop = stopwordslist("stop.txt")
+    outstr = ''
+    for word in jie:
+        if word not in stop:
+            if word != '\t':
+                outstr += word
+                outstr += " "
+    return outstr
 
-def find_csv(set_,v=None):
+def main_(set_,v=None):
     data_pool = os.listdir(".\zip\\"+ALL_YEAR)
     s = sorted(list(set_))
     if v is None:
         lst = []
         st = []
+        
     for i in range(len(data_pool)):
         data_pool[i] = int(data_pool[i][0:4])
         
     for key in s:
         res = binary_search(data_pool, key)
-        lst.append(res) #index
+        lst.append(res) #index 搜尋特定產業CSV
     
     for index_ in lst:
-        txt = get_txt(data_pool[index_]) # get your text
+        txt = get_txt(data_pool[index_]) # get your string
         st.append(txt)
     
+    get_jieba = list(jieba_(st))
+    print(get_jieba,end="")
     
-    
-    
+    # outstr = ""
+    # for i in get_jieba:
+    #     if i != " ":
+    #         outstr += str(i)
+    # print(outstr)
     
 
 m1 = os.listdir(".\zip\\"+ALL_YEAR)
@@ -79,4 +107,4 @@ m2 = list(m2["代碼"])
 
 set_ = set(m1) & set(m2)
 
-l = find_csv(set_)
+l = main_(set_)
