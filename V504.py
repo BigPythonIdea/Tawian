@@ -2,6 +2,7 @@
 """
 Created on Thu Apr 29 08:55:27 2021
 
+.AAAAAAAAAAAAAAA
 @author: Mooncat
 
 V503 產業相似度 把各家"水泥" 產業 經由結巴 分完後 放入大樣本中 
