@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- AA
+# -*- coding: utf-8 -*-
 """
 Created on Fri May 14 21:31:10 2021
 
@@ -11,7 +11,6 @@ def  get_txt(sym,sym1):
         for line in f.readlines():
             s1 += line
             
-    
     s2 = ""
     with open(sym1+".txt", 'r', encoding="utf-8") as f1:
         for line in f1.readlines():

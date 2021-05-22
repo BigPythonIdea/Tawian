@@ -8,12 +8,14 @@ Created on Fri May 14 20:37:27 2021
 import pandas as pd
 import os
 import numpy as np
-
-from lab import write_txt
-
+import time
+from sklearn.metrics.pairwise import cosine_similarity
+from write import write_txt
+from jiebas import jieba_
+from tfidf import tf_idf
 
 INDUSTRY = "化學.csv"
-YEAR = "2011"
+YEAR = "2012"
 PATH = "C:\\Users\\Mooncat\\py\\Tawian\\zip\\"
 PATH_SYMBOL = "C:\\Users\\Mooncat\\py\\Tawian\\symbol\\"
 store_dir = "C:\\Users\\Mooncat\\py\\TawianLab\\zip\\"+YEAR+"\\"
@@ -44,6 +46,7 @@ def get_txt(sym):
     with open(store_dir+str(sym)+".txt", 'r', encoding="utf-8") as f:
         for line in f.readlines():
             s += line
+    return s
 
 def get_cos(v1,v2):
     cos_sim = np.dot(v1,v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
@@ -53,8 +56,12 @@ def main_(set_,v=None):
     data_pool = os.listdir(PATH+YEAR) #準備全樣本
     s = sorted(list(set_)) #部分樣本代碼排序
     
+    
+    res = []
     if v is None:
         lst = []
+        
+        
     
     #取開頭4個字元 轉成int 以便搜尋
     for i in range(len(data_pool)):
@@ -63,19 +70,30 @@ def main_(set_,v=None):
     for key in s:
         res = binary_search(data_pool, key) #二分法搜尋
         lst.append(res) #return index 【搜尋特定產業CSV】
-        
-    #一次取2個進行比較
+    
+    for w in lst:
+        write_txt(data_pool[w], YEAR)
+    
+
+    # #一次取2個進行比較
     for idx in lst:
         for idx_ in lst:
-            # print(str(data_pool[idx])+"<--->"+str(data_pool[idx_]))
-            sym = data_pool[idx]
-            sym2 = data_pool[idx_]
+            print(str(data_pool[idx])+"<--->"+str(data_pool[idx_]))
+            s1 = get_txt(data_pool[idx])
+            s2 = get_txt(data_pool[idx_])
+            j1 = jieba_(s1)
+            j2 = jieba_(s2)
+            vector = tf_idf(j1,j2)
+            cos = get_cos(vector[0], vector[1])
             
-            s1 = write_txt(sym,YEAR)
-            s2 = write_txt(sym2,YEAR)
+            with open("化學"+YEAR+".txt", "a+" )as f:
+                f.write(str(data_pool[idx])+"<--->"+str(data_pool[idx_])+" : "+ str(cos)+"\n")
+            
+
+    
             
             
-    return 0
+            
             
 
 if __name__ == '__main__':
@@ -89,4 +107,4 @@ if __name__ == '__main__':
     #交集
     set_ = set(m1) & set(m2)
     
-    main_(set_)
+    mains = main_(set_)
