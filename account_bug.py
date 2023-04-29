@@ -19,7 +19,7 @@ def connect_database():
     conn.close()
     return result
 
-def insert_report_to_database(code, name, content, year, season):
+def insert_report_to_database(company_code, quarter_date, content, year):
     host = "localhost"
     user = "root"
     password = "123456"
@@ -27,17 +27,20 @@ def insert_report_to_database(code, name, content, year, season):
 
     conn = pymysql.connect(host=host, user=user, password=password, database=database)
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO financial_report (code, name, content, year, season) VALUES (%s, %s, %s, %s, %s)', (code, name, content, year, season))
+    cursor.execute('INSERT INTO quarterly_reports (company_code, quarter_date, content, year) VALUES (%s, %s, %s, %s)', (company_code, quarter_date, content, year))
     conn.commit()
     conn.close()
 
 
 def get_report_content(symbol, year, season):
-    options = Options()
-    options.add_argument('--headless')
-    driver = webdriver.Chrome()
-    driver.get("https://mops.twse.com.tw/mops/web/t163sb03")
-
+    try:
+        options = Options()
+        options.add_argument('--headless')
+        driver = webdriver.Chrome(executable_path = 'Path to webdriver', options=options)
+        driver.get("https://mops.twse.com.tw/mops/web/t163sb03")
+    except Exception as e:
+        print(e)
+    
     try:
         select = Select(driver.find_element(By.XPATH, '//*[@id="isnew"]'))
         select.select_by_value("false")
@@ -82,8 +85,8 @@ def main():
         for season in seasons:
             for symbol in symbols:
                 content = get_report_content(symbol, year, season)
-                if content:
-                    print("I get content")
+                insert_report_to_database(symbol, season, content, year)
+                    
 
 
 
