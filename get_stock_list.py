@@ -13,7 +13,6 @@ stock_code = dfs[0][2][1:].tolist()
 stock_name = dfs[0][3][1:].tolist()
 stock_industry = dfs[0][6][1:].tolist()
 
-import datetime
 import pymysql
 
 # 資料庫連線設定
