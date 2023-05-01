@@ -1,33 +1,34 @@
 # Tawian
 Financial report
 
-日期：2023年4月28日
+日期：2023年5月1日
 
 紀錄人：Mooncat
 
-今天的工作內容如下：
+資料庫: stockdb.sql
 
+包含項目: 109 110 111 Q1~Q4 會計師稽核報告
 
-新建Database 叫做 stockdb 
+抓取來源: 公開資訊站 會計師查核(核閱)報告
 
-在本地端使用MySQL Workbench建立一個名為stockdb的database。
+爬蟲檔案 1: get_stock_list.py 
 
-新建資料表 financial_report、stock
+爬蟲檔案 2: get_account_data.py
 
-在stockdb中新增兩個資料表，分別為financial_report和stock。
+※ 檔案1 先抓公司代碼以及名稱
 
-financial_report資料表中包含以下欄位：code、name、content、year
-
-stock資料表中包含以下欄位：code、name、industry
-
-寫一個程式將code、name、industry入庫
-
-使用Python語言，撰寫程式將股票代碼（code）、公司名稱（name）以及所屬產業（industry）寫入stock資料表中。
+※ 檔案2 抓取會計師稽核報告
 
 ---
 
-### 未來代辦事項：
+## 使用說明
 
-爬取code的會計師稽核報告，並將其寫入financial_report資料表中。
+* 先從requirements.txt 中安裝必要套件
 
-採用幾種不同的NLP技術，並將其應用在會計師稽核報告的分析中，比較其結果差異。
+* MySQL 安裝好把db匯入就能使用，如果要增修參考檔案1、2
+
+---
+## 未來代辦事項：
+
+☐ 採用幾種不同的NLP技術，並將其應用在會計師稽核報告的分析中，比較其結果差異。
+
