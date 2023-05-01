@@ -78,7 +78,7 @@ def main():
     symbols = [row[0] for row in result]
     symbols = list(map(int, symbols))
 
-    years = ['110','111']
+    years = ['109','110','111']
     seasons = ['01','02','03','04']
     
     for year in years:
