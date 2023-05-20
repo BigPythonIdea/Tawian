@@ -1,0 +1,47 @@
+由於 scikit-learn 的版本更新頻繁，所以最穩定的相依於 scikit-learn 的 Python、NumPy、SciPy 版本也可能會隨著時間而變化。以下是目前建議的 scikit-learn 相依版本：
+
+Python 3.7 或 3.8
+NumPy 1.20.3
+SciPy 1.6.2
+scikit-learn 0.24.2
+這些版本已經經過測試，相容性較好，可以穩定地運行 scikit-learn。
+
+注意：這些版本僅供參考，具體版本需根據您的應用和系統需求而定。如果您使用的是 Anaconda 環境，建議使用 conda 安裝相應的庫和依賴項，以確保環境配置正確。
+
+
+
+測試:
+
+import numpy as np
+import pandas as pd
+import sklearn
+
+# 加載一個典型的數據集（iris），並輸出其屬性
+from sklearn.datasets import load_iris
+
+iris = load_iris()
+print(iris.feature_names)
+print(iris.target_names)
+
+# 將數據集轉換為 Pandas DataFrame
+iris_df = pd.DataFrame(data=np.c_[iris['data'], iris['target']], columns=iris['feature_names'] + ['target'])
+print(iris_df.head())
+
+# 將數據集分為訓練集和測試集
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.2, random_state=42)
+
+# 加載一個分類器（SVM），並訓練模型
+from sklearn.svm import SVC
+
+clf = SVC()
+clf.fit(X_train, y_train)
+
+# 在測試集上測試分類器
+from sklearn.metrics import accuracy_score
+
+y_pred = clf.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy}")
+
