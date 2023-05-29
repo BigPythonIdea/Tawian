@@ -13,6 +13,7 @@
 | requirements.txt   | 環境需求 |  |
 | stockdb.sql | 文本資料庫 | 直接可以使用 |
 | get_similarity_score.py| 相似度對比 | [移動這裡](https://github.com/BigPythonIdea/Tawian/blob/master/NLP/%E5%A4%A7%E5%9E%8B%E8%AA%9E%E8%A8%80%E6%A8%A1%E5%9E%8B/get_similarity_score.py)|
+| Diagram 1.jpg   | ER Model     | 爬蟲1 |
 
 ## 系統環境
 
@@ -56,6 +57,5 @@
 - [ ] 採用幾種不同的NLP技術，並將其應用在會計師稽核報告的分析中，比較其結果差異。
 - [ ] 補充文獻
 - [ ] 建置Docker Linux平台
-
 
 
